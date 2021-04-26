@@ -1,28 +1,13 @@
-#' @title Collapsing left and right columns in data and output as a new data frame
-#' 
-#' @description User-controlled process to collapse bilateral data into
-#' "collapsed" traits for use in statistical analyses. Collapsing choices include:
-#' - Continuous data: 'lefts', 'rights', 'mean'   
-#' - Ordinal data: 'highest', 'lowest' expression, 'none' (unilateral trait)  
-#' 
-#' The function outputs a new data frame with a single column per traitVec, collapsing
-#' the sides based on user-defined "choose" option for each trait.
-#' 
-#' @param inputDf Original data frame to be manipulated.
-#' @param keepCols Column numbers to keep in final output without manipulation (ex. 1:4).
-#' @param sideLabels Character string of left and right (in that order) labels (ex. c('L','R')).
-#' @param sideLoc Character string identifying if side labels are at the "start" or "end" of trait names.
-#' @param traitVec Vector of trait names that need collapsing without left or right distinction (ex. c('FDL','HDL')).
-#' @param approach Vector of choices for each trait (ex: 'lefts', 'highest', 'none'). This Vector should be the same length as 'traitVec'.
-#' 
-#' @examples 
-#' US <- read.csv('https://github.com/ElaineYChu/stull_mcp/tree/main/inst/extdata/US.csv')  # import data from stull_mcp github repository
-#' sub <- US[c(1:4, 8, 13, 84, 85)]  # subset columns for demonstration
-#' head(sub)  # inspect subset
-#' ex <- collapseData(inputDf=sub, keepCols=1:4, sideLabels=c('_L','_R'), sideLoc='end', traitVec=c('FDL','man_I1'), approach=c('lefts','highest'))  # keep the first 4 columns, collapse 'FD" and 'man_I1' using the corresponding approaches
-#' head(ex)
-#' 
-#' @export
+##############################################################
+##
+##      Collapse the Lefts and Rights of a trait
+##     together into a single column, based on the
+##              user's specifications. 
+##
+##  Included in package on Github: MichaelHoltonPrice/yada
+##
+##############################################################
+
 
 collapseData <- function(inputDf, keepCols, sideLabels, sideLoc, traitVec, approach) {
   

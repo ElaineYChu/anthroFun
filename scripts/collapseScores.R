@@ -1,13 +1,12 @@
-#' @title Collapse trait scores
-#' 
-#' @description User defines an ordinal or categorical trait and a vector of
-#' scores to be collapsed together. This process comes after lefts and rights are combined.
-#' 
-#' @param inputDf Data frame to be manipulated
-#' @param trait Name of trait for which scores are to be collapsed
-#' @param scores Character string of scores, with curly brackets denoting the scores that are collapsed together. Ex: "0,1,2,{3,4,5}"
-#' 
-#' @export
+##############################################################
+##
+##                Collapse trait scores 
+##     together into a single column, based on the
+##              user's specifications. 
+##
+##  Included in package on Github: MichaelHoltonPrice/yada
+##
+##############################################################
 
 
 collapseScores <- function(inputDf, trait, scores) {
