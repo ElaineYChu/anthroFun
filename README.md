@@ -6,6 +6,7 @@ Each `.R ` script starts with a description that provides information about how 
 To use any of these functions, copy-and-paste the function script, run it, and you should be good to go.
 
 If you run into any errors or issues that you cannot figure out, please feel free to email me at: [elainechu@nevada.unr.edu]
+
 Enjoy!
 
 # Example
