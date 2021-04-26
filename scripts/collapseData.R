@@ -8,6 +8,21 @@
 ##
 ##############################################################
 
+## Argument Descriptions:
+#' @param inputDf Data frame with original data, including traits with Left and Rights
+#' @param keepCols Vector of column numbers that should be kept, but not manipulated. Ex: keepCols=1:3
+#' @param sideLabels Vector of how the Left and Right sides are denoted. Ex: sideLabels=c('L','R')
+#' @param sideLoc Location of the side labels. The two options are: sideLoc='start' or sideLoc='end'
+#' @param traitVec Vector of final traits to be collapsed or kept, as defined by the user. 
+#' Ex: traitVec=c('FDL','RDL','man_M1','max_M2','carpal_count')
+#' @param approach Vector of how each trait should be collapsed. This vector length should be
+#' equal to the length of traitVec. Current options are: approach=
+#' 'mean' (recommended only for continuous traits)
+#' 'lefts' (prefer left, substitute with right)
+#' 'rights' (prefer right, subsitute with left)
+#' 'highest' (highest value or trait expression)
+#' 'lowest' (lowest value or trait expression)
+
 
 collapseData <- function(inputDf, keepCols, sideLabels, sideLoc, traitVec, approach) {
   

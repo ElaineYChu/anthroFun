@@ -8,6 +8,16 @@
 ##
 ##############################################################
 
+## Argument Descriptions:
+#' @param inputDf Data frame continaing traits as columns
+#' @param trait Name of trait to be manipulated. Ex: trait='man_M2'
+#' @param scores String of possible trait scores in order, with curly 
+#' brackets denoting the scores that should be collapsed together.
+#' Ex1: scores='1,{2,3,4},5,6,7,{8,9,10,11},{12,13}'
+#' Ex2: scores='1,{12,2,23},3,4'
+
+## NOTE: This function cannot handle a scores argument with gaps.
+## Ex: '-1,1,2,3,{4,5,6}'
 
 collapseScores <- function(inputDf, trait, scores) {
   cList <- stringr::str_extract_all(scores, "(?<=\\{).+?(?=\\})")[[1]]  # extract collapsing groups
@@ -47,7 +57,7 @@ collapseScores <- function(inputDf, trait, scores) {
 }
 
 
-## EXAMPLE - Single trait, no recoding needed
+## EXAMPLE 1 - Single trait, no recoding needed
 # Simulate data for sample data frame
 ogDf <- data.frame(max_M1=1:13,
                    max_M2=1:13,
@@ -59,7 +69,7 @@ ogDf  # view data
 newEF <- collapseScores(inputDf=ogDf, trait='EF', scores='1,{12,2},{23,3},4')
 cbind(ogDf$EF, newEF)  # compare old scores to new scores
 
-## EXAMPLE - Multiple traits with same recoding / remapping needed
+## EXAMPLE 2 - Multiple traits with same recoding / remapping needed
 # Collapse dental development stages 2, 3, and 4 together and 10, 11, 12 together, and recode other traits
 traitNames <- c('max_M1','max_M2','man_C')  # dental trait names
 newDf <- data.frame(max_M1=rep(NA,13),  # empty data frame
