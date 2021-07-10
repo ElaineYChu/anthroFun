@@ -15,7 +15,7 @@
 #' Ex2: searchCols=5:8
 
 
-removeNA <- function(df, searchCols) {
+remove_NA <- function(df, searchCols) {
   allNA <- which(rowSums(is.na(df[searchCols]))==length(searchCols))  # row numbers where all are NA
   
   newDf <- df[-allNA,]  # remove rows where all are NA

@@ -30,7 +30,7 @@
 #' Default is seed=2021, but can be any number as long as it is consistent between runs.
 
 
-multiCVcomp <- function(dataframe, varVec, ageVec, grpVec=NA, btwGrp=F, alpha=0.05, seed=2021){
+multi_CV_comp <- function(dataframe, varVec, ageVec, grpVec=NA, btwGrp=F, alpha=0.05, seed=2021){
   set.seed(seed)
   
   ## Initialize empty vectors for storage
