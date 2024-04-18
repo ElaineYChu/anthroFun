@@ -28,20 +28,28 @@
 #' @examples 
 #' Sally <- c(1:15)
 #' Max <- c(1:15)*1.02
+#' Jack <- c(1:15)*0.98
 #' 
-#' calc_tem(Sally, Max, "absolute", decimals=2)  # TEM = 0.13
-#' calc_tem(Sally, Max, "relative", decimals=4)  # %TEM = 1.5914
+#' inter <- data.frame(Sally, Max, Jack)
 #' 
-#' ## This Example Should Fail with "Unequal number of observations":
-#' calc_tem(Sally[1:6], Max)
+#' calc_tem(inter[1:2], "absolute", decimals=2)  # TEM = 0.13
+#' calc_tem(inter[1:2], "relative", decimals=4)  # %TEM = 1.5914
+#' 
+#' calc_tem(inter)  # TEM = 0.18
+#' calc_tem(inter, mode="relative", 4)  # %TEM = 2.273
+#' 
+#' ## This Example Should Fail with "Cannot calculate with missing data":
+#' broken <- inter
+#' broken[2,1] <- NA
+#' calc_tem(broken)
 #' 
 #' ## This Example Should Fail with "Not a valid mode":
-#' calc_tem(Sally, Max, "TEM")
+#' calc_tem(inter, "TEM")
 
 
 calc_tem <- function(data, mode="absolute", decimals=2) {
   if(any(is.na(data))) {
-    stop("Cannot calculate with missing data.")
+    stop("Cannot calculate with missing data")
   }
   
   if(mode != "absolute" & mode != "relative") {
