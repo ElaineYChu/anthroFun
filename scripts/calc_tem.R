@@ -6,6 +6,7 @@
 ##
 ##        By: Elaine Y. Chu
 ##     Completed on: July 10, 2021
+##  Updated on: April 18, 2024 - added 3+ raters capabilities
 ##
 ###########################################
 
@@ -16,14 +17,13 @@
 #' commonly used to evaluate intra- and inter-observer error in
 #' anthropology and anthropometry.
 #' 
-#' @param user_1 A vector of length (n) with the first set of observations.
-#' @param user_2 A vector of length (n) with the second set of observations.
+#' @param data Dataframe containing each observer's measurements as columns.
 #' @param mode Selection for either the "absolute" (TEM) or "relative" (%TEM)
 #' calculation. Default is "absolute".
 #' @param decimals Number of decimal places for the final calculation to round.
 #' Default is 2.
 #' 
-#' @returns A value for either TEM or %TEM. 
+#' @returns A list with either TEM or %TEM
 #' 
 #' @examples 
 #' Sally <- c(1:15)
@@ -39,43 +39,44 @@
 #' calc_tem(Sally, Max, "TEM")
 
 
-calc_tem <- function(user_1, user_2, mode="absolute", decimals=2) {
-  if(length(user_1) != length(user_2)) {
-    stop("Unequal number of observations")
+calc_tem <- function(data, mode="absolute", decimals=2) {
+  if(any(is.na(data))) {
+    stop("Cannot calculate with missing data.")
   }
   
   if(mode != "absolute" & mode != "relative") {
     stop("Not a valid mode")
   }
   
+  ## Decide whether there are 2 or 3+ raters
+  two_raters <- ifelse(ncol(data)==2, T, F)
+  
   ## Calculate absolute tem
-  numerator <- sum((user_1 - user_2)^2)
-  n <- length(user_1)
-  denominator <- 2 * n
-  atem <- sqrt(numerator / denominator)
+  ## If there are two raters only, calculate TEM normally
+  ## Else, use the TEM extension``
+  if(two_raters) {
+    numerator <- sum((data[,1] - data[,2])^2)
+    n <- nrow(data)
+    denominator <- 2 * n
+    atem <- sqrt(numerator / denominator)
+  } else {
+    N = nrow(data)
+    K = ncol(data)
+    
+    atem <- sqrt(sum(apply(data,1,function(x) sum(x^2) - sum(x)^2/K))/(N*(K-1)))
+  }
   
   if(mode == "absolute") {
-    return(paste0("TEM = ", round(atem, decimals)))
+    return(list(atem=round(atem, decimals)))
   }
   
   if(mode == "relative") {
-    vav <- mean(c(user_1, user_2))
+    data_vec <- NULL
+    for(i in 1:ncol(data)) {
+      data_vec <- c(data_vec, data[ ,i])
+    }
+    vav <- mean(data_vec)
     rtem <- (atem / vav) * 100
-    return(paste0("%TEM = ", round(rtem, decimals)))
+    return(list(rtem=round(rtem, decimals)))
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
