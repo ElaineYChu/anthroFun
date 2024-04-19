@@ -6,7 +6,7 @@
 ##
 ##        By: Elaine Y. Chu
 ##     Completed on: July 10, 2021
-##  Updated on: April 18, 2024 - added 3+ raters capabilities
+##  Updated on: April 19, 2024 - added 3+ raters capabilities
 ##
 ###########################################
 
@@ -56,6 +56,9 @@ calc_tem <- function(data, mode="absolute", decimals=2) {
     stop("Not a valid mode")
   }
   
+  ## Convert any weird data structures (aka tibbles) to data.frame
+  data <- as.data.frame(data)
+  
   ## Decide whether there are 2 or 3+ raters
   two_raters <- ifelse(ncol(data)==2, T, F)
   
@@ -83,8 +86,10 @@ calc_tem <- function(data, mode="absolute", decimals=2) {
     for(i in 1:ncol(data)) {
       data_vec <- c(data_vec, data[ ,i])
     }
+
     vav <- mean(data_vec)
     rtem <- (atem / vav) * 100
     return(list(rtem=round(rtem, decimals)))
   }
 }
+
